@@ -1,0 +1,30 @@
+{
+  "name": "test-frontend-inditex",
+  "private": true,
+  "version": "1.0.0",
+  "author": {
+    "name": "Gonzalo Alecha",
+    "email": "alechagonzalo@gmail.com"
+  },
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "eslint": "eslint . ",
+    "test": "jest ."
+  },
+  "dependencies": {
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2"
+  },
+  "devDependencies": {
+    "@testing-library/jest-dom": "^5.16.2",
+    "@testing-library/react": "^12.1.2",
+    "@vitejs/plugin-react": "^1.0.7",
+    "eslint": "^8.9.0",
+    "eslint-plugin-react": "^7.28.0",
+    "eslint-plugin-react-hooks": "^4.3.0",
+    "jest": "^27.5.1",
+    "vite": "^2.8.0"
+  }
+}
