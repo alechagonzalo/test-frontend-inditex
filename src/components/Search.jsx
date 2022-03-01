@@ -32,11 +32,10 @@ const StyledInputBase = styled.input`
   transition: width;
   transition-duration: 300ms;
   width: auto;
-  @media ${device.mobileL} {
+  @media ${device.tablet} {
     width: 20ch;
     &:focus {
       width: 25ch;
-      background-color: ${({ theme }) => theme.colors.lightGray};
     }
   }
 `;

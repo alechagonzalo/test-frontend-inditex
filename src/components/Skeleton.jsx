@@ -1,6 +1,6 @@
 import React from "react";
 import styled, { keyframes } from "styled-components";
-import { IoMdStar } from "react-icons/io";
+import { RatingFilledIcon } from "./Rating";
 
 const IMAGE_WIDTH = 160;
 const IMAGE_HEIGHT = 212;
@@ -15,14 +15,13 @@ const skeletonKeyframes = keyframes`
 `;
 
 const CardSkeleton = styled.div`
-  width: 220px;
+  width: calc(${IMAGE_WIDTH}px + 20px);
   height: 336px;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   position: relative;
-  border: 1px solid #f5f5f5;
   margin-bottom: ${({ theme }) => theme.spacing(4)};
 `;
 
@@ -49,18 +48,14 @@ const PictureSkeleton = styled(ProductSkeleton)`
   display: block;
 `;
 
-const RatingIcon = styled(IoMdStar)`
-  color: #e6e3e3;
-`;
-
 const RatingSkeleton = () => {
   return (
     <div>
-      <RatingIcon />
-      <RatingIcon />
-      <RatingIcon />
-      <RatingIcon />
-      <RatingIcon />
+      <RatingFilledIcon color="#e6e3e3" />
+      <RatingFilledIcon color="#e6e3e3" />
+      <RatingFilledIcon color="#e6e3e3" />
+      <RatingFilledIcon color="#e6e3e3" />
+      <RatingFilledIcon color="#e6e3e3" />
     </div>
   );
 };

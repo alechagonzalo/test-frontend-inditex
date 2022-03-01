@@ -2,12 +2,14 @@ import { Link, Link as RouterLink } from "react-router-dom";
 import { Typography } from "./Typography";
 import useBreadcrumbs from "use-react-router-breadcrumbs";
 import styled from "styled-components";
+import useMediaQuery from "@/hooks/useMediaQuery";
 
 const LinkRouter = (props) => <Link {...props} component={RouterLink} />;
 
 const LinkRouterStyled = styled(LinkRouter)(({ theme }) => ({
   fontSize: "1rem",
   textDecoration: "none",
+  color: theme.colors.primary,
 }));
 
 const BreadcrumbContainer = styled.div({
@@ -22,6 +24,7 @@ const BreadcrumbItem = styled(Typography)`
 
 export const BreadcrumbsComponent = () => {
   const breadcrumbs = useBreadcrumbs();
+  const isMobile = useMediaQuery("(max-width: 425px)");
 
   return (
     <BreadcrumbContainer>
@@ -40,7 +43,7 @@ export const BreadcrumbsComponent = () => {
           >
             <BreadcrumbItem
               color="text.primary"
-              fontSize="subtitle2"
+              fontSize={isMobile ? "subtitle3" : "subtitle2"}
               key={breadcrumb.key}
             >
               {`${name} ${dividerChar} `}

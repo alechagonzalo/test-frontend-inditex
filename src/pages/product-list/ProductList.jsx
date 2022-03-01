@@ -8,18 +8,20 @@ const ListContainer = styled.div`
   padding: ${({ theme }) => theme.spacing(2)};
   width: auto;
   @media ${device.tablet} {
-    width: 80%;
+    width: 90%;
   }
 `;
 
 const NavBar = styled.div`
   display: flex;
-  justify-content: flex-end;
   margin-top: ${({ theme }) => theme.spacing(1)};
   margin-bottom: ${({ theme }) => theme.spacing(4)};
   flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 90%;
   @media ${device.mobileL} {
-    flex-direction: row;
+    justify-content: flex-end;
     width: auto;
   }
 `;
@@ -29,8 +31,10 @@ const ProductsContainer = styled.div`
   margin-top: ${({ theme }) => theme.spacing(2)};
   margin-bottom: ${({ theme }) => theme.spacing(4)};
   justify-items: center;
-  @media ${device.mobileS} {
-    grid-template-columns: 1fr;
+  grid-template-columns: repeat(1, 1fr);
+
+  @media ${device.mobileL} {
+    grid-template-columns: repeat(2, 1fr);
   }
   @media ${device.tablet} {
     grid-template-columns: repeat(3, 1fr);

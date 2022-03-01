@@ -12,13 +12,13 @@ export const RatingIcon = styled(IoMdStarOutline)`
 export const Rating = ({ value = 5, color = null }) => {
   const rating = Math.ceil(value);
 
-  let arr = new Array(5);
-  arr.fill(true);
-  arr.fill(false, rating);
+  let ratingArray = new Array(5);
+  ratingArray.fill(true);
+  ratingArray.fill(false, rating);
 
   return (
     <div>
-      {arr.map((item) => {
+      {ratingArray.map((item) => {
         return item ? (
           <RatingFilledIcon color={color} />
         ) : (
