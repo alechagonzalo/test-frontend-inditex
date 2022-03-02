@@ -1,5 +1,6 @@
 import { IoMdStar, IoMdStarOutline } from "react-icons/io";
 import styled from "styled-components";
+import PropTypes from "prop-types";
 
 export const RatingFilledIcon = styled(IoMdStar)`
   color: ${({ color, theme }) => color ?? theme.colors.primary};
@@ -18,13 +19,17 @@ export const Rating = ({ value = 5, color = null }) => {
 
   return (
     <div>
-      {ratingArray.map((item) => {
+      {ratingArray.map((item, i) => {
         return item ? (
-          <RatingFilledIcon color={color} />
+          <RatingFilledIcon color={color} key={i} />
         ) : (
-          <RatingIcon color={color} />
+          <RatingIcon color={color} key={i} />
         );
       })}
     </div>
   );
+};
+
+Rating.propTypes = {
+  value: PropTypes.number.isRequired,
 };
