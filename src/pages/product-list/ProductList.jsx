@@ -13,16 +13,16 @@ const ListContainer = styled.div`
 `;
 
 const NavBar = styled.div`
-  display: flex;
   margin-top: ${({ theme }) => theme.spacing(1)};
   margin-bottom: ${({ theme }) => theme.spacing(4)};
-  flex-direction: column;
+  display: flex;
   align-items: center;
   justify-content: center;
-  width: 90%;
-  @media ${device.mobileL} {
+  width: auto;
+
+  @media ${device.laptop} {
+    width: 90%;
     justify-content: flex-end;
-    width: auto;
   }
 `;
 

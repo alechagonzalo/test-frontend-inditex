@@ -7,7 +7,8 @@ export const fontSizes = {
   h6: "1.25rem",
   subtitle1: "1rem",
   subtitle2: "0.875rem",
-  subtitle3: "0.65rem",
+  subtitle3: "0.82rem",
+  subtitle4: "0.65rem",
   body1: "1rem",
   body2: "0.875rem",
 };

@@ -6,19 +6,22 @@ import { Cart } from "./Cart";
 const HeaderBackground = styled.div`
   width: 100%;
   background-color: ${(p) => p.theme.colors.primary};
-  height: 25vh;
+  height: 20vh;
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-bottom: ${({ theme }) => theme.spacing(9)};
+  margin-bottom: ${({ theme }) => theme.spacing(6)};
   border-radius: 8px;
+  @media ${device.tablet} {
+    height: 25vh;
+  }
 `;
 
 const HeaderContainer = styled.header`
   width: 80%;
   position: absolute;
   height: 36px;
-  top: calc(25vh - 18px);
+  top: calc(20vh - 18px);
   background-color: ${(p) => p.theme.colors.lightSecondary};
   border-radius: ${({ theme }) => theme.spacing(1)};
   padding: ${({ theme }) => theme.spacing(1.25, 2, 1.25, 2)};
@@ -41,7 +44,7 @@ const ContainerTitle = styled.div`
   justify-content: space-between;
   width: 100%;
   padding: 0;
-  @media ${device.mobileL} {
+  @media ${device.tablet} {
     padding: ${({ theme }) => theme.spacing(0, 2, 0, 1)};
   }
 `;

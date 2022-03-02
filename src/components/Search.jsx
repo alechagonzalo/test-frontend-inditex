@@ -7,9 +7,8 @@ const SearchInner = styled("div")`
   border-radius: ${({ theme }) => theme.spacing(0.5)};
   width: 100%;
   margin-left: 0;
-
+  border: none;
   @media ${device.mobileL} {
-    margin-left: ${({ theme }) => theme.spacing(1)};
     width: auto;
   }
 `;
@@ -27,15 +26,21 @@ const SearchIconWrapper = styled("div")(({ theme }) => ({
 const StyledInputBase = styled.input`
   color: inherit;
   padding: ${({ theme }) => theme.spacing(1, 1, 1, 0)};
-  border-radius: ${({ theme }) => theme.spacing(0.5)};
+  border-radius: ${({ theme }) => theme.spacing(1, 1, 1, 1)};
   padding-left: calc(1em + ${({ theme }) => theme.spacing(3)});
   transition: width;
   transition-duration: 300ms;
   width: auto;
+  border: none;
+  box-shadow: -1px 45px 78px -20px rgba(0, 0, 0, 0.58);
+  background: rgb(239, 239, 239);
+  outline: none;
+  height: ${({ theme }) => theme.spacing(3)};
   @media ${device.tablet} {
-    width: 20ch;
+    width: 25ch;
     &:focus {
-      width: 25ch;
+      width: 30ch;
+      border: none;
     }
   }
 `;
