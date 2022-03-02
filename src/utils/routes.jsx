@@ -1,17 +1,31 @@
 import { ProductDetails } from "@/pages/product-details/ProductDetails";
 import { ProductList } from "@/pages/product-list/ProductList";
 import { Navigate } from "react-router-dom";
+import { IoHomeSharp } from "react-icons/io5";
+import styled from "styled-components";
+
+const Home = styled(IoHomeSharp)`
+  position: relative;
+  top: 1px;
+`;
 
 export default [
-  { path: "/products", name: "Product List", Component: ProductList },
   {
-    path: "/products/:product_id",
-    name: "Product List",
-    Component: ProductDetails,
+    id: "home",
+    path: "/",
+    breadcrumb: "Home",
+    props: { icon: <Home /> },
+    Component: () => <Navigate to="/products" />,
   },
   {
-    path: "/",
-    name: "Home",
-    Component: () => <Navigate to="/products" />,
+    id: "product",
+    path: "/products",
+    breadcrumb: "Products",
+    Component: ProductList,
+  },
+  {
+    id: "product_item",
+    path: "/products/:product_id",
+    Component: ProductDetails,
   },
 ];

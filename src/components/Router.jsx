@@ -9,8 +9,8 @@ function Router() {
       <Header />
       <Routes>
         {routes.map((r) => {
-          const { Component, name, path } = r;
-          return <Route key={name} path={path} element={<Component />} />;
+          const { Component, id, path } = r;
+          return <Route key={id} path={path} element={<Component />} />;
         })}
       </Routes>
     </BrowserRouter>
