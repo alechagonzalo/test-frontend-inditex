@@ -23,6 +23,7 @@ const CardSkeleton = styled.div`
   align-items: center;
   position: relative;
   margin-bottom: ${({ theme }) => theme.spacing(4)};
+  margin-top: ${({ theme }) => theme.spacing(1)};
 `;
 
 const ProductSkeleton = styled.div`
@@ -63,9 +64,9 @@ const RatingSkeleton = () => {
 export default () => (
   <CardSkeleton>
     <PictureSkeleton />
-    <ProductSkeleton height="8px" width="20%" />
-    <ProductSkeleton height="8px" width="35%" marginTop="8px" />
+    <ProductSkeleton height="10px" width="20%" />
+    <ProductSkeleton height="10px" width="35%" marginTop="8px" />
     <RatingSkeleton />
-    <ProductSkeleton height="8px" width="20%" marginTop="4px" />
+    <ProductSkeleton height="16px" width="20%" marginTop="16px" />
   </CardSkeleton>
 );

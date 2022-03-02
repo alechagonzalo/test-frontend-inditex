@@ -1,6 +1,9 @@
+import { ProductItem } from "@/components/ProductItem";
 import { Search } from "@/components/Search";
 import Skeleton from "@/components/Skeleton";
 import { device } from "@/styles/device";
+import { client } from "@/utils/client";
+import { useEffect, useState } from "react";
 import styled from "styled-components";
 const ListContainer = styled.div`
   display: flex;
@@ -45,20 +48,41 @@ const ProductsContainer = styled.div`
 `;
 
 export const ProductList = () => {
+  const [products, setProducts] = useState(null);
+
+  const loadData = async () => {
+    const products = await client("api/product");
+    setProducts(products);
+  };
+
+  useEffect(() => {
+    loadData();
+  }, []);
+
   return (
     <ListContainer>
       <NavBar>
         <Search />
       </NavBar>
       <ProductsContainer>
-        <Skeleton />
-        <Skeleton />
-        <Skeleton />
-        <Skeleton />
-        <Skeleton />
-        <Skeleton />
-        <Skeleton />
-        <Skeleton />
+        {products ? (
+          <>
+            {products.map((item) => {
+              return <ProductItem item={item} key={item.id} />;
+            })}
+          </>
+        ) : (
+          <>
+            <Skeleton />
+            <Skeleton />
+            <Skeleton />
+            <Skeleton />
+            <Skeleton />
+            <Skeleton />
+            <Skeleton />
+            <Skeleton />
+          </>
+        )}
       </ProductsContainer>
     </ListContainer>
   );
