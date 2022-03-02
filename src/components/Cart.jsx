@@ -1,6 +1,8 @@
 import { device } from "@/styles/device";
-import { IoMdCart } from "react-icons/io";
+import { IoCart } from "react-icons/io5";
 import styled from "styled-components";
+
+import PropTypes from "prop-types";
 
 const IconButton = styled.button`
   display: inline-flex;
@@ -42,7 +44,7 @@ const Badge = styled.span`
   }
 `;
 
-const CartIcon = styled(IoMdCart)`
+const CartIcon = styled(IoCart)`
   user-select: none;
   width: 1em;
   height: 1em;
@@ -61,12 +63,14 @@ const SpanItems = styled.span`
     top: 14px;
     height: 20px;
     min-width: 20px;
+    padding: 0 4px;
+    font-size: 0.65rem;
   }
 
   right: -2px;
   top: 12px;
   border: 2px solid ${(p) => p.theme.colors.lightSecondary};
-  padding: 0 4px;
+  padding: ${({ theme }) => theme.spacing(0.25, 0.5, 0.5, 0.5)};
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -76,7 +80,7 @@ const SpanItems = styled.span`
   box-sizing: border-box;
   font-family: "Montserrat", sans-serif;
   font-weight: 500;
-  font-size: 0.65rem;
+  font-size: 0.6rem;
   min-width: 15px;
   height: 15px;
   border-radius: 10px;
@@ -97,4 +101,8 @@ export const Cart = ({ items }) => {
       </Badge>
     </IconButton>
   );
+};
+
+Cart.propTypes = {
+  items: PropTypes.number.isRequired,
 };
