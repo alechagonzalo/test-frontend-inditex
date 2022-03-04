@@ -1,9 +1,9 @@
 import { device } from "@/styles/device";
-import { BsSearch } from "react-icons/bs";
 import styled from "styled-components";
 import { Typography } from "./Typography";
 import { IoCaretDown, IoCaretUp } from "react-icons/io5";
 import { useState } from "react";
+import PropTypes from "prop-types";
 
 const SearchIconWrapper = styled("div")(({ theme }) => ({
   height: "100%",
@@ -65,11 +65,16 @@ const MenuContainer = styled.div`
   overflow-y: auto;
   overflow-x: hidden;
   outline: 0;
-  width: 20ch;
+  width: 15ch;
+
   padding: 10px;
   box-shadow: 10px 10px 24px 1px rgba(194, 194, 194, 0.47);
 
   z-index: 2;
+
+  @media ${device.tablet} {
+    width: 20ch;
+  }
 `;
 
 const MenuList = styled.ul`
@@ -78,10 +83,7 @@ const MenuList = styled.ul`
   padding: 0;
   position: relative;
   max-height: calc(100% - 32px);
-  transition: max-height 0.25s ease-in; /* 
-  
-  padding-top: ${({ theme }) => theme.spacing(1)};
-  padding-bottom: ${({ theme }) => theme.spacing(1)}; */
+  transition: max-height 0.25s ease-in;
 `;
 
 const MenuItem = styled.li`
@@ -119,7 +121,7 @@ export const Select = ({ options, optionSelected }) => {
     <div>
       <StyledButton
         onClick={() => {
-          options && setIsOpen(!isOpen);
+          options.length > 0 && setIsOpen(!isOpen);
         }}
         onBlur={() => {
           setIsOpen(false);
@@ -143,4 +145,9 @@ export const Select = ({ options, optionSelected }) => {
       ) : null}
     </div>
   );
+};
+
+Select.propTypes = {
+  options: PropTypes.array.isRequired,
+  optionSelected: PropTypes.string,
 };
