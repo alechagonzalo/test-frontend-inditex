@@ -68,10 +68,10 @@ const MenuContainer = styled.div`
   width: 15ch;
 
   padding: 10px;
-  box-shadow: 10px 10px 24px 1px rgba(194, 194, 194, 0.47);
+  box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
 
   z-index: 2;
-
+  visibility: ${({ isOpen }) => (isOpen ? "visible" : "hidden")};
   @media ${device.tablet} {
     width: 20ch;
   }
@@ -93,7 +93,7 @@ const MenuItem = styled.li`
   border: 0;
   margin: 0;
   border-radius: 0;
-  padding: ${({ theme }) => theme.spacing(0.5, 1, 0.5, 1)}; 
+  padding: ${({ theme }) => theme.spacing(0.5, 1, 0.5, 1)};
   cursor: pointer;
   user-select: none;
   vertical-align: middle;
@@ -110,11 +110,10 @@ const MenuItem = styled.li`
   &:hover {
     text-decoration: none;
     background-color: ${({ theme }) => theme.colors.hoverGray};
-}
   }
 `;
 
-export const Select = ({ options, optionSelected }) => {
+export const Select = ({ options, optionSelected, title, onChange }) => {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
@@ -123,31 +122,43 @@ export const Select = ({ options, optionSelected }) => {
         onClick={() => {
           options.length > 0 && setIsOpen(!isOpen);
         }}
-        onBlur={() => {
-          setIsOpen(false);
-        }}
       >
         <SearchIconWrapper>
           {isOpen ? <IoCaretUp /> : <IoCaretDown />}
         </SearchIconWrapper>
-        <Label fontSize="subtitle3">{optionSelected ?? "Brand"}</Label>
+        <Label fontSize="subtitle3">{optionSelected?.name ?? title}</Label>
       </StyledButton>
-      {isOpen ? (
-        <MenuContainer>
-          <MenuList>
-            {options.map((option) => (
-              <MenuItem key={option}>
-                <Label fontSize="subtitle3">{option}</Label>
-              </MenuItem>
-            ))}
-          </MenuList>
-        </MenuContainer>
-      ) : null}
+
+      <MenuContainer isOpen={isOpen}>
+        <MenuList>
+          {options.map((option) => (
+            <MenuItem
+              key={option.id}
+              onClick={() => {
+                onChange(option);
+                setIsOpen(false);
+              }}
+            >
+              <Label fontSize="subtitle3">{option.name}</Label>
+            </MenuItem>
+          ))}
+        </MenuList>
+      </MenuContainer>
     </div>
   );
 };
 
 Select.propTypes = {
-  options: PropTypes.array.isRequired,
-  optionSelected: PropTypes.string,
+  options: PropTypes.arrayOf(
+    PropTypes.shape({
+      name: PropTypes.string,
+      id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+    })
+  ).isRequired,
+  title: PropTypes.string.isRequired,
+  onChange: PropTypes.func.isRequired,
+  optionSelected: PropTypes.shape({
+    name: PropTypes.string,
+    id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+  }),
 };
