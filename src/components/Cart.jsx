@@ -9,6 +9,7 @@ const IconButton = styled.button`
   align-items: center;
   justify-content: center;
   position: relative;
+  height: max-content;
   box-sizing: border-box;
   background-color: transparent;
   outline: 0;
