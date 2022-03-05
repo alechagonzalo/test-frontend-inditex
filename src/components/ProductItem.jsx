@@ -1,15 +1,13 @@
 import { EMPTY_VALUE, EURO_SYMBOL } from "@/utils/constants";
-import { useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { Rating } from "./Rating";
 import { Typography } from "./Typography";
+import PropTypes from "prop-types";
+import { FadeImage } from "./FadeImage";
 
 const IMAGE_WIDTH = 160;
 const IMAGE_HEIGHT = 212;
-
-const getRandomRating = (min, max) => {
-  return Math.random() * (max - min) + min;
-};
 
 const ProductItemContainer = styled.div`
   display: flex;
@@ -41,18 +39,19 @@ const TextUpperCase = styled(Typography)`
 `;
 
 export const ProductItem = ({ item }) => {
-  const { product_id } = useParams();
-  const { imgUrl, brand, id, model, price } = item;
-  const rating = getRandomRating(3, 5);
+  const { imgUrl, brand, model, price, rating } = item;
+  const navigate = useNavigate();
 
   return (
-    /*  <Fade in={!!item} style={{ transitionDelay: item ? "500ms" : "0ms" }}> */
-    <ProductItemContainer>
+    <ProductItemContainer
+      onClick={() => {
+        navigate(`/products/${item.id}`);
+      }}
+    >
       <ImagePlaceHolder>
-        <img
+        <FadeImage
           src={imgUrl}
           loading="lazy"
-          alt={model}
           style={{
             width: IMAGE_WIDTH,
             height: IMAGE_HEIGHT,
@@ -70,4 +69,8 @@ export const ProductItem = ({ item }) => {
       </TextUpperCase>
     </ProductItemContainer>
   );
+};
+
+ProductItem.propTypes = {
+  item: PropTypes.object.isRequired,
 };
