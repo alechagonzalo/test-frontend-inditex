@@ -2,13 +2,14 @@ import { Link, Link as RouterLink } from "react-router-dom";
 import { Typography } from "./Typography";
 import useBreadcrumbs from "use-react-router-breadcrumbs";
 import styled from "styled-components";
-import useMediaQuery from "@/hooks/useMediaQuery";
+
+import useMediaQuery from "@/hooks/media-query/useMediaQuery";
 import routes from "@/utils/routes";
 import { device } from "@/styles/device";
 
 const LinkRouter = (props) => <Link {...props} component={RouterLink} />;
 
-const LinkRouterStyled = styled(LinkRouter)(({ theme }) => ({
+const LinkRouterStyled = styled(LinkRouter)(() => ({
   fontSize: "1rem",
   textDecoration: "none",
 }));

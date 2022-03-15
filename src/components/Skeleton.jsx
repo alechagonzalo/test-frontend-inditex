@@ -1,5 +1,6 @@
 import React from "react";
 import styled, { keyframes } from "styled-components";
+
 import { RatingFilledIcon } from "./Rating";
 
 const IMAGE_WIDTH = 160;
@@ -61,7 +62,7 @@ const RatingSkeleton = () => {
   );
 };
 
-export default () => (
+export const Skeleton = () => (
   <CardSkeleton>
     <PictureSkeleton />
     <ProductSkeleton height="10px" width="20%" />

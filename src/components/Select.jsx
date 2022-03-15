@@ -1,9 +1,10 @@
-import { device } from "@/styles/device";
-import styled from "styled-components";
-import { Typography } from "./Typography";
-import { IoCaretDown, IoCaretUp } from "react-icons/io5";
 import { useState } from "react";
 import PropTypes from "prop-types";
+import styled from "styled-components";
+import { IoCaretDown, IoCaretUp } from "react-icons/io5";
+
+import { Typography } from "./Typography";
+import { device } from "@/styles/device";
 
 const SearchIconWrapper = styled("div")(({ theme }) => ({
   height: "100%",
@@ -21,7 +22,6 @@ const StyledButton = styled.button`
   min-height: ${({ theme }) => theme.spacing(3)};
   width: 20ch;
   background: ${({ theme }) => theme.colors.lightGray};
-  box-shadow: -1px 45px 78px -20px rgba(0, 0, 0, 0.58);
   border: none;
   outline: none;
   border-radius: ${({ theme }) => theme.spacing(1, 1, 1, 1)};
@@ -32,6 +32,8 @@ const StyledButton = styled.button`
   transition-duration: 300ms;
   height: ${({ theme }) => theme.spacing(5)};
   position: relative;
+  box-shadow: rgba(0, 0, 0, 0.02) 0px 1px 3px 0px,
+    rgba(27, 31, 35, 0.15) 0px 0px 0px 1px;
   &:hover {
     background: ${({ theme }) => theme.colors.hoverGray};
   }
@@ -68,7 +70,8 @@ const MenuContainer = styled.div`
   width: 15ch;
 
   padding: 10px;
-  box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
+  box-shadow: rgba(0, 0, 0, 0.02) 0px 1px 3px 0px,
+    rgba(27, 31, 35, 0.15) 0px 0px 0px 1px;
 
   z-index: 2;
   visibility: ${({ isOpen }) => (isOpen ? "visible" : "hidden")};
@@ -122,6 +125,9 @@ export const Select = ({ options, optionSelected, title, onChange }) => {
         onClick={() => {
           options.length > 0 && setIsOpen(!isOpen);
         }}
+        onBlur={(e) => {
+          setIsOpen(false);
+        }}
       >
         <SearchIconWrapper>
           {isOpen ? <IoCaretUp /> : <IoCaretDown />}
@@ -134,7 +140,7 @@ export const Select = ({ options, optionSelected, title, onChange }) => {
           {options.map((option) => (
             <MenuItem
               key={option.id}
-              onClick={() => {
+              onMouseDown={(e) => {
                 onChange(option);
                 setIsOpen(false);
               }}

@@ -1,6 +1,7 @@
-import { device } from "@/styles/device";
-import { BsSearch } from "react-icons/bs";
 import styled from "styled-components";
+import { BsSearch } from "react-icons/bs";
+
+import { device } from "@/styles/device";
 
 const SearchInner = styled("div")`
   position: relative;
@@ -32,10 +33,14 @@ const StyledInputBase = styled.input`
   transition-duration: 300ms;
   width: auto;
   border: none;
-  box-shadow: -1px 45px 78px -20px rgba(0, 0, 0, 0.58);
-  background: rgb(239, 239, 239);
+  box-shadow: rgba(0, 0, 0, 0.02) 0px 1px 3px 0px,
+    rgba(27, 31, 35, 0.15) 0px 0px 0px 1px;
+  background: ${({ theme }) => theme.colors.lightGray};
   outline: none;
   height: ${({ theme }) => theme.spacing(3)};
+  &:hover {
+    background: ${({ theme }) => theme.colors.hoverGray};
+  }
   @media ${device.tablet} {
     width: 25ch;
     &:focus {
@@ -45,13 +50,13 @@ const StyledInputBase = styled.input`
   }
 `;
 
-export const Search = () => {
+export const Search = ({ onChange, title = "Search" }) => {
   return (
     <SearchInner>
       <SearchIconWrapper>
         <BsSearch />
       </SearchIconWrapper>
-      <StyledInputBase placeholder="Search" />
+      <StyledInputBase placeholder={title} onChange={onChange} />
     </SearchInner>
   );
 };

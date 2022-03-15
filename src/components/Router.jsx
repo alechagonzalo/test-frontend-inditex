@@ -1,6 +1,6 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import { Header } from "./Header";
 
+import { Header } from "./Header";
 import routes from "@/utils/routes";
 
 function Router() {

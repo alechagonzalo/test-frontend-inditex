@@ -1,7 +1,8 @@
+import { useEffect, useState, useCallback } from "react";
 import styled from "styled-components";
-import { useEffect, useState } from "react";
-import { Button } from "./Button";
 import { IoMdArrowRoundUp } from "react-icons/io";
+
+import { Button } from "./Button";
 
 const StyledButton = styled(Button)`
   position: fixed;
@@ -22,20 +23,25 @@ const StyledButton = styled(Button)`
 export const GoTop = () => {
   const [showButton, setShowButton] = useState(false);
 
+  const goTopEvent = useCallback(() => {
+    if (window.pageYOffset > 300) {
+      setShowButton(true);
+    } else {
+      setShowButton(false);
+    }
+  }, []);
+
   useEffect(() => {
-    window.addEventListener("scroll", () => {
-      if (window.pageYOffset > 300) {
-        setShowButton(true);
-      } else {
-        setShowButton(false);
-      }
-    });
+    window.addEventListener("scroll", goTopEvent);
+    return () => {
+      window.removeEventListener("scroll", goTopEvent);
+    };
   }, []);
 
   const scrollToTop = () => {
     window.scrollTo({
       top: 0,
-      behavior: "smooth", // for smoothly scrolling
+      behavior: "smooth",
     });
   };
 

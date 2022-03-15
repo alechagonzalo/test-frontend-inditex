@@ -1,6 +1,6 @@
-import { IoMdStar, IoMdStarOutline } from "react-icons/io";
 import styled from "styled-components";
 import PropTypes from "prop-types";
+import { IoMdStar, IoMdStarOutline } from "react-icons/io";
 
 export const RatingFilledIcon = styled(IoMdStar)`
   color: ${({ color, theme }) => color ?? theme.colors.primary};

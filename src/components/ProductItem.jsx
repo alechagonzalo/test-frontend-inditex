@@ -1,10 +1,11 @@
-import { EMPTY_VALUE, EURO_SYMBOL } from "@/utils/constants";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
+import PropTypes from "prop-types";
+
 import { Rating } from "./Rating";
 import { Typography } from "./Typography";
-import PropTypes from "prop-types";
 import { FadeImage } from "./FadeImage";
+import { EMPTY_VALUE, EURO_SYMBOL } from "@/utils/constants";
 
 const IMAGE_WIDTH = 160;
 const IMAGE_HEIGHT = 212;
