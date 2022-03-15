@@ -1,85 +1,55 @@
-import { useCallback, useEffect, useState } from "react";
-import { client } from "@/utils/api-client";
-
+import { useTranslations } from "@/i18n/translations.hook";
 import { ProductItem } from "@/components/ProductItem";
 import { Search } from "@/components/Search";
-import { Select } from "@/components/Select";
-import Skeleton from "@/components/Skeleton";
+import { Skeleton } from "@/components/Skeleton";
 import { GoTop } from "@/components/GoTop";
+import { Typography } from "@/components/Typography";
 import { ListContainer, NavBar, ProductsContainer } from "./styles";
-import { mapProductsAMtoProductsVM } from "@/utils/mapper";
+import { useProductList } from "./ProductList.hook";
 
-function filterProducts(products, filter) {
-  if (!products) return [];
-
-  const pattern = filter
-    .split("")
-    .map((x) => {
-      return `(?=.*${x})`;
-    })
-    .join("");
-  const regex = new RegExp(`${pattern}`, "g");
-  return products.filter((prod) => {
-    return (
-      prod.brand.toLowerCase().match(regex) ||
-      prod.model.toLowerCase().match(regex)
-    );
-  });
-}
-
-let debounceTimer;
-
-const debounce = (callback, time) => {
-  clearTimeout(debounceTimer);
-  debounceTimer = setTimeout(callback, time);
+const SkeletonList = () => {
+  return (
+    <>
+      <Skeleton />
+      <Skeleton />
+      <Skeleton />
+      <Skeleton />
+      <Skeleton />
+      <Skeleton />
+      <Skeleton />
+      <Skeleton />
+    </>
+  );
 };
 
 export const ProductList = () => {
-  const [products, setProducts] = useState(null);
-  const [filter, setFilter] = useState("");
+  const { language } = useTranslations();
 
-  const loadData = async () => {
-    const data = await client("api/product");
-    setProducts(mapProductsAMtoProductsVM(data));
-  };
-
-  useEffect(() => {
-    loadData();
-  }, []);
-
-  function handleFilter(e) {
-    debounce(() => {
-      setFilter(e.target.value);
-    }, 500);
-  }
-
-  const filteredProducts = filterProducts(products, filter);
+  const { filteredProducts, isLoading, handleFilter, filter } =
+    useProductList();
 
   return (
     <ListContainer>
       <NavBar>
-        <Search onChange={handleFilter} />
+        <Search
+          onChange={handleFilter}
+          title={language.productList.select.search}
+        />
       </NavBar>
       <ProductsContainer>
-        {filteredProducts ? (
+        {!isLoading ? (
           <>
             {filteredProducts.map((item) => {
               return <ProductItem item={item} key={item.id} />;
             })}
           </>
         ) : (
-          <>
-            <Skeleton />
-            <Skeleton />
-            <Skeleton />
-            <Skeleton />
-            <Skeleton />
-            <Skeleton />
-            <Skeleton />
-            <Skeleton />
-          </>
+          <SkeletonList />
         )}
       </ProductsContainer>
+      {filteredProducts.length === 0 && filter !== "" && (
+        <Typography fontSize="h4">{language.productList.noResults}</Typography>
+      )}
       <GoTop />
     </ListContainer>
   );

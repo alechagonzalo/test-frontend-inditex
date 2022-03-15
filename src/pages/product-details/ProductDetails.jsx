@@ -1,5 +1,3 @@
-import { useCallback, useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
 import PropTypes from "prop-types";
 
 import { GiWeight, GiBattery100, GiNetworkBars } from "react-icons/gi";
@@ -9,25 +7,26 @@ import { MdSdStorage, MdScreenshot } from "react-icons/md";
 import { GrAndroid } from "react-icons/gr";
 import { AiOutlineFullscreen } from "react-icons/ai";
 
+import { useTranslations } from "@/i18n/translations.hook";
 import { Color } from "@/components/Color";
 import { Typography } from "@/components/Typography";
+import { FadeImage } from "@/components/FadeImage";
+import { Container as Centered } from "@/components/Container";
+import { Select } from "@/components/Select";
+import { EURO_SYMBOL, EMPTY_VALUE } from "@/utils/constants";
+import { Loader } from "@/components/Loader";
 import { theme } from "@/styles/theme";
-import { client } from "@/utils/api-client";
 import {
   ButtonsContainer,
   Container,
   DetailItemContainer,
   DetailsContainer,
   ImgContainer,
-  Label,
+  LoaderCointainer,
   RightSideContainer,
 } from "./styles";
-import { FadeImage } from "@/components/FadeImage";
-import { Container as Centered } from "@/components/Container";
-import { Select } from "@/components/Select";
-import { Button } from "@/components/Button";
-import { EURO_SYMBOL, EMPTY_VALUE } from "@/utils/constants";
-import { mapProductAMtoProductVM } from "@/utils/mapper";
+import { AddToCart, GoBack } from "./Actions";
+import { useProductDetails } from "./ProductDetails.hook";
 
 const IMAGE_WIDTH = 190;
 const IMAGE_HEIGHT = 242;
@@ -51,39 +50,29 @@ const DetailItem = ({ title, description, icon, color }) => {
 };
 
 export const ProductDetails = () => {
-  const { product_id } = useParams();
-  const [product, setProduct] = useState(null);
-  const [selectedStorage, setSelectedStorage] = useState(null);
-  const [selectedColor, setSelectedColor] = useState(null);
+  const { language } = useTranslations();
 
-  const loadData = async () => {
-    const data = await client(`api/product/${product_id}`);
-    const product = mapProductAMtoProductVM(data);
-    setProduct(product);
-    if (product.options.colors.length === 1)
-      setSelectedColor(product.options.colors[0]);
-    if (product.options.storages.length === 1)
-      setSelectedStorage(product.options.storages[0]);
-  };
+  const {
+    productItem,
+    selectedStorage,
+    selectedColor,
+    isLaptop,
+    handleStorageChange,
+    handleColorChange,
+  } = useProductDetails();
 
-  useEffect(() => {
-    loadData();
-  }, []);
+  if (!productItem)
+    return (
+      <LoaderCointainer>
+        <Loader size={32} />
+      </LoaderCointainer>
+    );
 
-  const handleStorageChange = useCallback((option) => {
-    setSelectedStorage(option);
-  }, []);
-
-  const handleColorChange = useCallback(
-    (option) => setSelectedColor(option),
-    []
-  );
-
-  return product ? (
+  return (
     <Container>
       <ImgContainer>
         <FadeImage
-          src={product.imgUrl}
+          src={productItem.imgUrl}
           loading="lazy"
           style={{
             width: IMAGE_WIDTH,
@@ -96,29 +85,31 @@ export const ProductDetails = () => {
           fontWeight={"400"}
           textTransform={"uppercase"}
         >
-          {product.brand}
+          {productItem.brand}
         </Typography>
         <Typography
           fontSize="h6"
           color={theme.colors.primary}
           fontWeight={"500"}
         >
-          {product.model}
+          {productItem.model}
         </Typography>
         <Typography
           fontSize="h6"
           color={theme.colors.primary}
           fontWeight={"500"}
         >
-          {product.price && EURO_SYMBOL}
-          {product.price && product.price !== "" ? product.price : EMPTY_VALUE}
+          {productItem.price && EURO_SYMBOL}
+          {productItem.price && productItem.price !== ""
+            ? productItem.price
+            : EMPTY_VALUE}
         </Typography>
         <DetailItem
-          title="Available colors"
+          title={language.productDetails.colors}
           color={theme.colors.primary}
           description={
             <Centered flexDirection="row">
-              {product?.colors.map((color) => {
+              {productItem?.colors.map((color) => {
                 return <Color color={color.toLowerCase()} key={color} />;
               })}
             </Centered>
@@ -128,108 +119,104 @@ export const ProductDetails = () => {
 
       <RightSideContainer>
         <ButtonsContainer>
+          {isLaptop && <GoBack />}
+
           <Select
-            options={product.options.colors}
+            options={productItem.options.colors}
             optionSelected={selectedColor}
-            title="Color"
+            title={language.productDetails.select.color}
             onChange={handleColorChange}
           />
           <Select
-            title="Storage"
+            title={language.productDetails.select.storage}
             optionSelected={selectedStorage}
-            options={product.options.storages}
+            options={productItem.options.storages}
             onChange={handleStorageChange}
           />
-
-          <Button
-            color={theme.colors.lightSecondary}
-            hoverColor={theme.colors.light}
-            width="auto"
-          >
-            <Label fontSize="subtitle3" fontWeight={500}>
-              Add to cart{" "}
-            </Label>
-          </Button>
+          <AddToCart
+            selectedColor={selectedColor}
+            selectedStorage={selectedStorage}
+          />
         </ButtonsContainer>
 
         <DetailsContainer>
           <DetailItem
-            title="CPU"
-            description={product.cpu}
+            title={language.productDetails.product.cpu}
+            description={productItem.cpu}
             icon={<BsCpuFill />}
           />
 
           <DetailItem
-            title="RAM"
-            description={product.ram}
+            title={language.productDetails.product.ram}
+            description={productItem.ram}
             icon={<FaMemory />}
           />
 
           <DetailItem
-            title="Battery"
-            description={product.battery}
+            title={language.productDetails.product.battery}
+            description={productItem.battery}
             icon={<GiBattery100 />}
           />
           <DetailItem
-            title="Back Camera"
-            description={product.backCamera}
+            title={language.productDetails.product.backCamera}
+            description={productItem.backCamera}
             icon={<BsFillCameraFill />}
           />
 
           <DetailItem
-            title="Frontal Camera"
-            description={product.frontalCamera}
+            title={language.productDetails.product.frontCamera}
+            description={productItem.frontalCamera}
             icon={<BsFillCameraFill />}
           />
 
           <DetailItem
-            title="Storage"
+            title={language.productDetails.product.storage}
             description={
               <div>
                 <Typography fontSize="subtitle3" color={theme.colors.hoverGray}>
-                  {product.internalMemory}
+                  {productItem.internalMemory}
                 </Typography>
               </div>
             }
             icon={<MdSdStorage />}
           />
           <DetailItem
-            title="Network"
-            description={product.networkTechnology}
+            title={language.productDetails.product.network}
+            description={productItem.networkTechnology}
             icon={<GiNetworkBars />}
           />
 
           <DetailItem
-            title="OS"
-            description={product.os ?? "-"}
+            title={language.productDetails.product.os}
+            description={productItem.os ?? "-"}
             icon={<GrAndroid />}
           />
 
           <DetailItem
-            title="SIM"
-            description={product.sim}
+            title={language.productDetails.product.sim}
+            description={productItem.sim}
             icon={<BsFillSimFill />}
           />
 
           <DetailItem
-            title="Display"
-            description={product.displayResolution}
+            title={language.productDetails.product.display}
+            description={productItem.displayResolution}
             icon={<MdScreenshot />}
           />
           <DetailItem
-            title="Size"
-            description={product.dimentions}
+            title={language.productDetails.product.size}
+            description={productItem.dimentions}
             icon={<AiOutlineFullscreen />}
           />
           <DetailItem
-            title="Weight"
-            description={product.weight}
+            title={language.productDetails.product.weight}
+            description={productItem.weight}
             icon={<GiWeight />}
           />
         </DetailsContainer>
       </RightSideContainer>
     </Container>
-  ) : null;
+  );
 };
 
 DetailItem.propTypes = {
