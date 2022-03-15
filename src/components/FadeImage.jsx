@@ -10,5 +10,5 @@ const Keyframes = keyframes`
 `;
 
 export const FadeImage = styled.img`
-  animation: ${Keyframes} 1000ms linear;
+  animation: ${Keyframes} 300ms linear;
 `;

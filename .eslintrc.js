@@ -13,7 +13,7 @@ module.exports = {
   },
   settings: {
     react: {
-      version: "latest",
+      version: "detect",
     },
   },
   extends: ["eslint:recommended", "plugin:react/recommended"],
@@ -31,5 +31,4 @@ module.exports = {
     "react-hooks/rules-of-hooks": RULES.ERROR,
     "react-hooks/exhaustive-deps": RULES.WARN,
   },
-  exclude: ["node_modules", "**/node_modules/*"],
 };
