@@ -1,18 +1,8 @@
-import error404 from "@/assets/404.png";
 import { Typography } from "@/components/Typography";
-import useMediaQuery from "@/hooks/useMediaQuery";
+import useMediaQuery from "@/hooks/media-query/useMediaQuery";
+import { useTranslations } from "@/i18n/translations.hook";
 import { device } from "@/styles/device";
 import styled from "styled-components";
-
-const IMAGE_WIDTH = 160;
-const IMAGE_HEIGHT = 212;
-
-const ImageError = styled.img`
-  width: 50vw;
-  @media ${device.laptop} {
-    width: 25vw;
-  }
-`;
 
 const ErrorPageContainer = styled.div`
   display: flex;
@@ -36,16 +26,18 @@ const TextContainer = styled.div`
 export const NotFound = () => {
   const isMobile = useMediaQuery("(max-width: 768px)");
 
+  const { language } = useTranslations();
+
   return (
     <ErrorPageContainer>
       <TextContainer>
-        <Typography fontSize={isMobile ? "h3" : "h1"}> 404 </Typography>
+        <Typography fontSize={isMobile ? "h3" : "h1"}>
+          {language.notFound.title}
+        </Typography>
         <Typography fontSize={isMobile ? "h5" : "h3"}>
-          {" "}
-          Ups... Page not found!{" "}
+          {language.notFound.message}
         </Typography>
       </TextContainer>
-      <ImageError src={error404} />
     </ErrorPageContainer>
   );
 };
